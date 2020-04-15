@@ -1,7 +1,7 @@
 """  Unit tests for checking e-mail validator  """
 import unittest
 import string
-from email_validator import check_email
+from emailvalidator import CheckValidEmail
 
 
 class TestSequenceFunctions(unittest.TestCase):
@@ -35,14 +35,14 @@ class TestSequenceFunctions(unittest.TestCase):
 
         cases = ["123345nnbh@dfg.com", "_15nh@dfg.com.sd", "12.n-nbh@dfg.c_om"]
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_check_email_parts_raises(self):
         """  Check @ in e-mail (Task 1.2)  """
 
         cases = ["123345nnbh.dfg.com", "@dfg.com", "dfg.com@"]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
     def test_domain_len_ok(self):
         """  Check len of domain = (3, 256) (Task 2.1)  """
@@ -54,7 +54,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  "user_name@" + ("b" * 254) + ".a",
                  "user_name@" + ("b" * 253) + ".a"]
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_domain_len_raises(self):
         """  Check len of domain = (3, 256) (Task 2.2)  """
@@ -65,7 +65,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  "user_name@" + ("b" * 255) + ".a",
                  "user_name@" + ("b" * 1000) + ".a"]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
     def test_domain_non_empty_ok(self):
         """  Check a set of non-empty rows of domain (Task 2.3)  """
@@ -74,7 +74,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  "user_name@do.main.com",
                  "user_name@d.o.m.a.i.n.com.ru"]
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_domain_non_empty_raises(self):
         """  Check a set of non-empty rows of domain (Task 2.4)  """
@@ -83,7 +83,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  "user_name@.", "user_name@s.s.",
                  "user_name@.s.s.s", "user_name@.s.s.s."]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
     def test_domain_symbols_ok(self):
         """  Check symbols = [a-z0-9_-] in domain (Task 2.5)  """
@@ -104,7 +104,7 @@ class TestSequenceFunctions(unittest.TestCase):
             "user_name@abc-123.__abc-123__.abc-123__",
             "user_name@___.___.___"]
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_domain_symbols_raises(self):
         """  Check wrong symbols = ("#","$","/",...,[A-Z]) in domain (Task 2.6)  """
@@ -115,7 +115,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  "user_name@abc.ABC.abc", "user_name@ABC.abc.abc",
                  "user_name@abc.abc.ABC"]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
     def test_domain_dash_raises(self):
         """  Check starts/ends "-" in domain (Task 3.1)  """
@@ -126,7 +126,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  "user_name@-.abc1_.-", "user_name@abc1_.-.abc1_",
                  "user_name@---.---.---"]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail,case)
 
     def test_username_len_ok(self):
         """  Check len of username = (1,128) (Task 4.1)  """
@@ -136,7 +136,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  ("a" * 127) + "@domain.com",
                  ("a" * 128) + "@domain.com"]
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_username_len_raises(self):
         """  Check len of username = (1,128) (Task 4.2)  """
@@ -144,7 +144,7 @@ class TestSequenceFunctions(unittest.TestCase):
         cases = [("a" * 129) + "@domain.com",
                  ("a" * 1000) + "@domain.com"]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
     def test_username_symbols_ok(self):
         """  Check symbols = [a-z0-9._-] in username (Task 4.3)  """
@@ -159,7 +159,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  ".___.__.--.--.___.__.---@domain.com",
                  "_@domain.com", "-@domain.com", ".@domain.com"]
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_username_symbols_raises(self):
         """  Check wrong symbols = ("#","$","/",...,[A-Z]) in username (Task 4.4)  """
@@ -170,7 +170,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  "ADF.adf@domain.com", "adf.ADF@domain.com",
                  "adf_ADF_adf@domain.com"]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
     def test_username_points_raises(self):
         """  Check two consecutive points in name (Task 5.1)  """
@@ -180,7 +180,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  ".-_dfg12dg..df12g.-_@domain.com",
                  "......@domain.com", "..@domain.com"]
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
     def test_username_dbl_quotes_ok(self):
         """  Check the paired double quotes (Task 6.1)  """
@@ -189,7 +189,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  '""dsd""f12""@domain.com',
                  '""""""@domain.com']
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_username_dbl_quotes_raises(self):
         """  Check the paired double quotes (Task 6.2)  """
@@ -197,7 +197,7 @@ class TestSequenceFunctions(unittest.TestCase):
         cases = ['"asdsdf1212@domain.com', 'dsd"f12@domain.com',
                  'dsdf12"@domain.com', '"""@domain.com']
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError,CheckValidEmail, case)
 
     def test_username_proh_sym_ok(self):
         """  Check prohibited symbols between paired double quotes (Task 7.1)  """
@@ -209,7 +209,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  '",,,,,"@domain.com',
                  '":::::"@domain.com']
         for case in cases:
-            self.assertTrue(check_email(case))
+            self.assertTrue(CheckValidEmail(case))
 
     def test_username_proh_sym_raises(self):
         """  Check prohibited symbols between paired double quotes (Task 7.2)  """
@@ -219,7 +219,7 @@ class TestSequenceFunctions(unittest.TestCase):
                  '!!!!!@domain.com', ',,,,,@domain.com',
                  ':::::@domain.com']
         for case in cases:
-            self.assertRaises(ValueError, check_email, case)
+            self.assertRaises(ValueError, CheckValidEmail, case)
 
 if __name__ == '__main__':
     # Runs unit tests 
